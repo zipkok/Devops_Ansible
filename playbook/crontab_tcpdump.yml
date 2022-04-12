@@ -1,0 +1,42 @@
+---
+- hosts: tcpdump
+  become: yes
+  remote_user: ""
+  vars: 
+    cap_file: tcpdump_{{ ansible_hostname }}_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}.cap
+    dump_time: 1800
+  
+  tasks:
+    - name: Start TCPDUMP
+      command: /usr/sbin/tcpdump -i <ENI> port <PORT> -w /tmp/{{ cap_file }}
+      async: {{ dump_time }}
+      poll: 0
+      
+    - name: Pause...
+      pasue:
+        second: {{ dump_time }}
+        
+    - name: Compress Capture File
+      command: gzip {{ cap_file }}
+        chdir: /tmp
+        
+    - name: Fetch remote SRV to Local SRV
+      fetch:
+        src: /tmp/{{ cap_file }}.gz
+        dest: /tmp/tcpdump/
+        flat: yes
+        
+    - name: Remove Files from Remote SRV
+      file:
+        path: /tmp/{{ cap_file }}.gz
+        state: absent
+    
+    - name: Sync Local Server to S3
+      shell: /usr/local/bin/aws s3 sync /tmp/tcpdump/ s3://<Bucket_Name>
+      delegate_to: 127.0.0.1
+      
+    - name: remote Files from Local SRV
+      file:
+        path: /tmp/tcpdump/{{ cap_file }}.gz
+        state: absent
+      delegate_to: 127.0.0.1
