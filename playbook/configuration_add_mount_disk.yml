@@ -1,0 +1,22 @@
+---
+- hosts: default
+  remote_user: ""
+  become: yes
+  tasks:
+    - name: Create /data directory
+      file: 
+        path:/data
+        state=directory
+    - name: fdisk Disk
+      shell: "echo -e '\nn\np\n1\n\n\nw' | fdisk /dev/sdb"
+      
+    - name: Create FileSystem
+      shell: "mkfs.xfs -f /dev/vdb1"
+      
+    - name: Mount /data Volume
+      shell: mount -a
+      
+    - name: Add /etc/fstab
+      shell: |
+              UUID=$(blkid -s UUID -o value /dev/sdb1)
+              echo "UUID=$UUID \t /data \t fs \t defaults,nofail \t 0 \t 0" >> /etc/fstab
