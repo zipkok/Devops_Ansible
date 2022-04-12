@@ -1,0 +1,10 @@
+---
+- hosts: default
+  remote_user: ""
+  become: yes
+  tasks:
+    - name: Execute du Command in /home
+      shell: du --max-depth=5 -m /home/* | sort -nr | head -n 10
+      
+    - name: Execute du Command in /data
+      shell: du --max-depth=5 -m /data/* | sort -nr | head -n 10
