@@ -1,0 +1,4 @@
+---
+- name: command 'hostname'
+  shell: "echo {{ ansible_hostname }} > {{ sosreport_hostname.path }}/hostname"
+  register: hostname

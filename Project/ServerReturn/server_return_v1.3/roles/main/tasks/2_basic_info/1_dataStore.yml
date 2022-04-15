@@ -1,0 +1,24 @@
+---
+- name: save 'OS Version'
+  debug:
+    msg: "{{ ansible_distribution }}-{{ ansible_distribution_version }}"
+  register: basic_info_version
+
+- name: save 'Hostname'
+  debug:
+    msg: "{{ ansible_hostname }}"
+  register: basic_info_hostname
+
+- name: save 'Date'
+  debug:
+    msg: "{{ ansible_date_time.date }} {{ ansible_date_time.time }}"
+  register: basic_info_date
+
+- name: save 'Requester'
+  debug:
+    msg: "{{ requester }}"
+  register: basic_info_requester
+
+- name: Store data in Local DB
+  shell: "mysql --login-path=root_user t_woobeom -e 'INSERT INTO ttt_woobeom(hostname, version, date, requester) VALUES ( \"{{ basic_info_hostname.msg }}\", \"{{ basic_info_version.msg }}\", \"{{ basic_info_date.msg }}\", \"{{ basic_info_requester.msg }}\" );'"
+  delegate_to: 192.168.182.101

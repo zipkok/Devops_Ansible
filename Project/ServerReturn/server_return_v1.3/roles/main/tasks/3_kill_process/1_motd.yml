@@ -1,0 +1,17 @@
+---
+- name: Backcup to motd, issue, issue.net
+  shell: "cat /etc/{{ item }} > {{sosreport_home.path }}/{{ item }}"
+  with_items:
+    - motd
+    - issue
+    - issue.net
+
+- name: Setup a MOTD .....
+  template:
+    src: issue.j2
+    dest: "{{ item }}"
+    backup: yes
+  with_items:
+     - /etc/motd
+     - /etc/issue
+     - /etc/issue.net

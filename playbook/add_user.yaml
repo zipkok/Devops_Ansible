@@ -1,0 +1,20 @@
+---
+- hosts: default
+  remote_user: woobeom
+  become: yes
+  
+  tasks:
+    - name: Add Group
+      group:
+        name: groupName
+        gid: 1111
+        state: present
+        
+    - name: Add User
+      user:
+        name: userName
+        shell: /bin/bash
+        password: "{{ 'password' | password_hash('sha512') }}"
+        state: present
+        uid: 1111
+        group: 1111

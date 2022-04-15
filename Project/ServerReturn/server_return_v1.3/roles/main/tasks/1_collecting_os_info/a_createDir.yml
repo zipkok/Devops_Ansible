@@ -1,0 +1,48 @@
+---
+- name: Create a Directory called sosreport_{{ ansible_hostname }}
+  file:
+    state: directory
+    path: "/tmp/sosreport_{{ ansible_hostname }}"
+  register: sosreport_home
+
+- name: Create a Directory called sosreport_{{ ansible_hostname }}/1_hostname
+  file:
+    state: directory 
+    path: "/tmp/sosreport_{{ ansible_hostname }}/1_hostname"
+  register: sosreport_hostname
+
+- name: Create a Directory called sosreport_{{ ansible_hostname }}/2_disk
+  file:
+    state: directory 
+    path: "/tmp/sosreport_{{ ansible_hostname }}/2_disk"
+  register: sosreport_disk
+
+- name: Create a Directory called sosreport_{{ ansible_hostname }}/3_memory
+  file:
+    state: directory
+    path: "/tmp/sosreport_{{ ansible_hostname }}/3_memory"
+  register: sosreport_memory
+
+- name: Create a Directory called sosreport_{{ ansible_hostname }}/4_network
+  file:
+    state: directory
+    path: "/tmp/sosreport_{{ ansible_hostname }}/4_network"
+  register: sosreport_network
+
+- name: Create a Directory called sosreport_{{ ansible_hostname }}/5_process
+  file:
+    state: directory
+    path: "/tmp/sosreport_{{ ansible_hostname }}/5_process"
+  register: sosreport_process
+
+- name: Create a Directory called sosreport_{{ ansible_hostname }}/6_package
+  file:
+    state: directory
+    path: "/tmp/sosreport_{{ ansible_hostname }}/6_package"
+  register: sosreport_package
+
+- name: Create a Directory called sosreport_{{ ansible_hostname }}/7_os_version
+  file:
+    state: directory
+    path: "/tmp/sosreport_{{ ansible_hostname }}/7_os_version"
+  register: sosreport_os_version

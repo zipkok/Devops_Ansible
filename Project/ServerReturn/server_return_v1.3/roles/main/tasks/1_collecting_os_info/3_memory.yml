@@ -1,0 +1,10 @@
+---
+- name: copy memory.sh to remote_server
+  copy:
+    src: ./memory.sh
+    dest: /tmp/memory.sh
+
+- name: command 'free -m'
+  shell: /bin/bash /tmp/memory.sh
+  #shell: "free -m > {{ sosreport_memory.path }}/free"
+

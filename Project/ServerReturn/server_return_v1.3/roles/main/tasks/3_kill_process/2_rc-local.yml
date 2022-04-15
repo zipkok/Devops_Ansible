@@ -1,0 +1,33 @@
+---
+- name: Backcup to /etc/rc.local
+  shell: "cat /etc/rc.local > {{ sosreport_home.path }}/rc.local"
+
+- name: Prevent rc-local Script From Starting
+  template :
+    src: rc.local.j2
+    dest: /etc/rc.d/rc.local
+    backup: yes
+  when: ansible_distribution == "CentOS" or ansible_distribution == "Redhat"
+
+- name: chmod to /etc/rc.local
+  file:
+    path: /etc/rc.d/rc.local
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_distribution == "CentOS" or ansible_distribution == "Redhat"
+
+- name: Prevent rc-local Script From Starting
+  template:
+    src: rc.local.j2
+    dest: /etc/rc.local
+    backup: yes
+  when: ansible_distribution == "Ubuntu"
+
+- name: chmod to /etc/rc.local
+  file:
+    path: /etc/rc.local
+    owner: root
+    group: root
+    mode: 0754
+  when: ansible_distribution == "Ubuntu"

@@ -1,0 +1,9 @@
+---
+- name: Command 'netstat -anp'
+  shell: "netstat -anp > {{ sosreport_network.path }}/netstat_anp"
+
+- name: Command 'netstat -nr'
+  shell: "netstat -rn > {{ sosreport_network.path }}/netstat_rn"
+
+- name: Command 'ifconfig -a'
+  shell: "ifconfig -a > {{ sosreport_network.path }}/ifconfig_a"

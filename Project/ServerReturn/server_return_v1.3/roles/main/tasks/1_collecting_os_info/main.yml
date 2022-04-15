@@ -1,0 +1,3 @@
+---
+- include: a_createDir.yml
+- include: b_sosreport.yml

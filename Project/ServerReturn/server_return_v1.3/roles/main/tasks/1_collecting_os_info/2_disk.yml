@@ -1,0 +1,9 @@
+---
+- name: Command 'df -hT'
+  shell: "df -hT  > {{ sosreport_disk.path }}/df"
+
+- name: Command 'cat /proc/partition'
+  shell: "cat /proc/partitions > {{ sosreport_disk.path }}/partitions"
+
+- name: Command 'fdisk -l'
+  shell: "fdisk -l > {{ sosreport_disk.path }}/fdisk"

@@ -1,0 +1,10 @@
+---
+- name: Command 'lsb_release -a'
+  shell: "lsb_release -a  > {{ sosreport_os_version.path }}/version"
+  when: ansible_distribution == "Ubuntu"
+
+- name: Command 'cat /etc/redhat-release'
+  shell: "cat /etc/redhat-release  > {{ sosreport_os_version.path }}/version"
+  when: ansible_distribution == "RedHat"
+
+

@@ -1,0 +1,6 @@
+---
+- include: 1_motd.yml
+- include: 2_rc-local.yml
+- include: 3_accessConf.yml
+- include: 4_processKill.yml
+- include: a_backupFile.yml

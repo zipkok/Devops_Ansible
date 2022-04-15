@@ -1,0 +1,12 @@
+---
+- name: When returning Server
+  hosts: all
+  gather_facts: True
+
+  vars_prompt:
+    - name: requester
+      prompt: "Who is requester of the server return job?"
+      private: no 
+
+  roles:
+    - main

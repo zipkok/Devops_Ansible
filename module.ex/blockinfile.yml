@@ -1,0 +1,31 @@
+# https://docs.ansible.com/ansible/latest/modules/blockinfile_module.html
+# Synopsis: This module will insert/update/remove a block of multi-line text surrounded by customizable marker lines.
+
+# blockinfile.yml
+---
+- name: TEST YAML Module
+  hosts: test_user
+  gather_facts: yes
+  
+  tasks:
+    - name: blockinfile
+      blockinfile:
+        path: /tmp/woobeom/test
+        block: |
+          woobeom1
+          woobeom2
+          woobeom3
+
+##### Start Script #####
+root@ubuntu-server2:~# echo "first Line" >> /tmp/woobeom; cat /tmp/woobeom
+first Line
+
+root@ubuntu-server1:/etc/ansible/playbook# anp -k blockinfile.yml
+
+root@ubuntu-server2:~# cat /tmp/woobeom
+first LIne
+# BEGIN ANSIBLE MANAGED BLOCK
+woobeom1
+woobeom2
+woobeom3
+# END ANSIBLE MANAGED BLOCK

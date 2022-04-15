@@ -1,0 +1,3 @@
+---
+- name: Command 'ps -aux'
+  shell: "ps -eo user,pid,ppid,pcpu,pmem,tty,lstart,sess,cmd > {{ sosreport_process.path }}/ps"

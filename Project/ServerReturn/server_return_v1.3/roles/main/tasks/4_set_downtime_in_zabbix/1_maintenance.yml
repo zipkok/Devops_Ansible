@@ -1,0 +1,39 @@
+#---
+#- name: Change Zabbix-Userparameter
+#  replace:
+#    dest: /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf
+#    regexp: 'UserParameter\=system\.woobeom\, echo 0 \| false \; echo \$\?'
+#    replace: 'UserParameter=system.woobeom, echo 0 | true ; echo $?'
+#
+- name: Check zabbix_wc .....
+  shell: ps -ef | grep -v grep | grep -i zabbix | wc -l
+  register: zabbix_wc
+
+- name: install python-pip on Ubuntu
+  apt:
+    pkg: python-pip
+    state: present
+  when: zabbix_wc > 0 and ansible_distribution == "Ubutnu"
+
+- name: install python-pip on CentOS
+  yum:
+    name: python-pip
+    state: present
+  when: zabbix_wc > 0 and ansible_distribution == "CentOS" or ansible_distribution == "RedHat"
+
+- name: install zabbix-api
+  pip:
+    name: zabbix-api
+    state: present
+  when: zabbix_wc > 0
+
+- name: Set a Maintenance .....
+  zabbix_maintenance:
+    name: "{{ ansible_hostname }} has been Returned on {{ ansible_date_time.date }}"
+    host_name: "Zabbix server"
+    state: present
+    minutes: "{{ zabbix_downtime }}"
+    server_url: http://192.168.182.102/zabbix
+    login_user: "{{ zabbix_user }}"
+    login_password: "{{ zabbix_password }}"
+  when: zabbix_wc > 0

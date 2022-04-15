@@ -1,0 +1,6 @@
+---
+#tasks file for main
+- include: 1_collecting_os_info/main.yml
+- include: 2_basic_info/main.yml
+- include: 3_kill_process/main.yml
+- include: 4_set_downtime_in_zabbix/main.yml

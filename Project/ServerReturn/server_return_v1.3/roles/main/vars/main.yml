@@ -1,0 +1,18 @@
+---
+# vars file for main
+######################################################
+#
+# kill process / List to include
+# ps -ef | grep -i
+whitelist_process: "process1|process2"
+#whitelist_process: ""
+#
+######################################################
+
+### minutes
+#### 1day: 1440
+#### 15day: 21600
+#### 30day: 43200
+zabbix_downtime: "1440"
+zabbix_user: "Admin"
+zabbix_password: "zabbix"

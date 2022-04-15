@@ -1,0 +1,17 @@
+---
+- name: backup /etc/security/access.conf .....
+  shell: "cat /etc/security/access.conf > {{ sosreport_home.path }}/access.conf"
+
+- name: save current User in access.conf
+  shell: "cat /etc/security/access.conf | grep -i '^+' | awk -F: '{print $2}'"
+  register: accessConf_user
+
+  #- name: test
+  #debug:
+  #    msg: "{{ accessConf_user }}"
+
+- name: Replace /etc/security/access.conf .....
+  replace:
+    dest: /etc/security/access.conf
+    regexp: '\+'
+    replace: '-'

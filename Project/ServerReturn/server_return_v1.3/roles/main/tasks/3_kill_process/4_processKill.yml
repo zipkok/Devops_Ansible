@@ -1,0 +1,77 @@
+---
+- name: test
+  debug:
+    msg: "{{ whitelist_process }}"
+
+- name: Backup to Running_Process_WhiteList .....
+  shell: "ps -ef | grep -v grep | grep -iE '{{ whitelist_process }}' > {{ sosreport_home.path }}/kill_process_whitelist | true"
+  when: whitelist_process.msg is not defined
+
+- name: Backup to Running_Process .....
+  shell: "ps -ef | grep -v grep  |  grep -i {{ item }}  > {{ sosreport_home.path }}/kill_process_{{ item }} | true"
+  with_items: "{{ accessConf_user.stdout_lines }}"
+  when: accessConf_user.stdout != ""
+
+  ###################################
+  
+- name: Process to be Shutdown_pid_WhiteList .....
+  shell: "ps -ef | grep -v grep | grep -iE '{{ whitelist_process }}' | awk '{print $2}'"
+  register: result1
+  when: whitelist_process.msg is not defined
+
+- name: Process to be Shutdown_pid .....
+  shell: "ps -ef | grep -v grep | grep -i {{ item }} | awk '{print $2}'"
+  register: result2
+  with_items: "{{ accessConf_user.stdout_lines }}"
+  when: accessConf_user.stdout != ""
+
+  ###################################
+  
+- name: Process TERM Kill to WhiteProcess_List.....
+  shell: "ps -ef | grep -v grep | grep -iE '{{ whitelist_process }}' | awk '{print $2}' | xargs kill -TERM | true"
+  when: whitelist_process.msg is not defined
+
+- name: Terminate the process in use by accessConf_user .....
+  shell: "ps -ef | grep -v grep | grep -i {{ item }} | awk '{print $2}' | xargs kill -TERM"
+  with_items: "{{ accessConf_user.stdout_lines }}"
+  when: accessConf_user.stdout != ""
+
+  ###################################
+
+  #- name: test
+  #  debug:
+  #    msg: "{{ result1 }}"
+
+  #- name: test
+  #  debug:
+  #    msg: "{{ result2 }}"
+
+  ###################################
+
+    #- name: Waiting until all running prcess are killed whitelist_process .....
+    #wait_for:
+    #path: "/proc/{{ item }}/status"
+    #state: absent
+    #with_items: "{{ result1.stdout_lines }}"
+    #when: whitelist_process != "" 
+
+    #- name: Waiting until all running prcess are killed .....
+    #wait_for:
+    #path: "/proc/{{ item }}/status"
+    #state: absent
+    #with_items: "{{ result2.stdout_lines }}"
+    #when: accessConf_user.stdout != "" 
+
+  ###################################
+
+  #- name: Process SIG Kill 1.....
+  #shell: "ps -ef | grep -vE '{{ blacklist_process }}' | grep -iE '{{ whitelist_process }}' | awk '{print $2}' | xargs kill -SIGKILL"
+  #with_items: "{{ accessConf_user.stdout }}"
+  #when: accessConf_user.stdout == ""
+  #ignore_errors: yes
+
+  #- name: Process SIG Kill 2.....
+  #shell: "ps -ef | grep -vE '{{ blacklist_process }}' | grep -iE '{{ whitelist_process }}' | grep -i {{ item }} | awk '{print $2}' | xargs kill -SIGKILL"
+  #with_items: "{{ accessConf_user.stdout }}"
+  #when: accessConf_user.stdout != ""
+  #ignore_errors: yes

@@ -1,0 +1,10 @@
+---
+- name: Command 'dpkg -l' or 'rpm -qa'
+  shell: "dpkg -l > {{ sosreport_package.path }}/dpkg"
+  when: ansible_distribution == "Ubuntu"
+
+- name: Command 'rpm -qa'
+  shell: "rpm -qa > {{ sosreport_package.path }}/rpm"
+  when: ansible_distribution == "RedHat"
+
+

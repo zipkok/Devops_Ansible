@@ -1,0 +1,10 @@
+---
+- hosts: default
+  remote_user: "srvamdin"
+  become: yes
+  tasks:
+    - name: Ensure SELinux is set to enforcing mode
+      lineinfile:
+        path: /etc/selinux/config
+        regexp: '^SELINUX='
+        line: SELINUX=enforcing

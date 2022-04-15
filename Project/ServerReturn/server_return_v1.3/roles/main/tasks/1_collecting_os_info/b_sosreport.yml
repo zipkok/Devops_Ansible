@@ -1,0 +1,8 @@
+---
+- include: 1_hostname.yml
+- include: 2_disk.yml
+- include: 3_memory.yml
+- include: 4_network.yml
+- include: 5_process.yml
+- include: 6_package.yml
+- include: 7_os_version.yml

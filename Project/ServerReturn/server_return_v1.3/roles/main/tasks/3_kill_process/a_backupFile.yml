@@ -1,0 +1,21 @@
+---
+- name: Command 'tar 'zcvf'
+  shell: "tar -zcvf {{ sosreport_home.path }}-{{ ansible_date_time.date }}.tar.gz {{ sosreport_home.path }}"
+  register: sosreport_tar
+#- name: Command 'tar -zcvf'
+#  archive:
+#    path: "{{ sosreport_home.path }}"
+#    dest: "{{ sosreport_home.path }}-{{ ansible_date_time.date }}.tar.gz"
+#    format: gz
+#  register: sosreport_tar
+
+- name: sosreport_tar TEST
+  debug:
+    msg: sosreport_tar
+
+- name: Fetch From Remote_Server to Local_Server
+  fetch:
+    src: "{{ sosreport_home.path }}-{{ ansible_date_time.date }}.tar.gz"
+    dest: /etc/ansible/roles/server_return_v1.3/fetch_dir/
+    #dest: /etc/ansible/playbook/server_return_v1.3/fetch_dir/
+    flat: yes

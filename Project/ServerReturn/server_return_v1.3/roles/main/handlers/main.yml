@@ -1,0 +1,12 @@
+---
+# handlers file for main
+- name: install python-pip
+  apt:
+    pkg: python-pip
+    state: present
+
+- name: install zabbix-api
+  pip:
+    name: zabbix-api
+    state: present
+
